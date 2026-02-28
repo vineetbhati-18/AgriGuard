@@ -51,8 +51,7 @@ Medium Term: Support for local languages (Hindi, Swahili, Spanish).
 Long Term: Connect to low-cost soil sensors via Bluetooth.
 
 
-👥 Team LFL 
-Team members :-
+👥 Team members :-
 1) Vedant Singh Kirar
 2) Vineet Bhati
 3) Apoorv Mishra
