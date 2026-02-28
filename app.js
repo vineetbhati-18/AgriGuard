@@ -1,65 +1,121 @@
-let model;
+// 1. YOUR SPECIALIZED CORN MODEL LINK
+const MODEL_URL = "https://teachablemachine.withgoogle.com/models/I2ZkBgnQ9/";
 
-const knowledgeBase = {
-    "corn": "Common Rust detected. Use fungicides containing mancozeb. Space plants 30cm apart.",
-    "tomato": "Early Blight found. Remove infected lower leaves. Avoid overhead watering.",
-    "potato": "Late Blight alert! This spreads fast. Apply copper-based spray immediately.",
-    "leaf": "General plant leaf identified. Ensure balanced N-P-K fertilizer application.",
-    "healthy": "The crop appears healthy. Continue regular soil moisture monitoring."
+let model, maxPredictions;
+
+// 2. THE CORN EXPERT DATABASE
+// MUST MATCH YOUR TEACHABLE MACHINE NAMES EXACTLY
+const diseaseDatabase = {
+    "Corn_Cercospora_Leaf_Spot Gray_leaf_Spot": {
+        title: "Gray Leaf Spot (Cercospora)",
+        symptoms: "Long, rectangular, tan to gray lesions running parallel to leaf veins.",
+        cure: "Apply fungicides containing Pyraclostrobin or Azoxystrobin (e.g., Headline or Quadris).",
+        prevent: "Practice crop rotation and manage surface residue through tillage."
+    },
+    "Corn_Common_Rust": {
+        title: "Common Rust (Puccinia sorghi)",
+        symptoms: "Small, cinnamon-brown, powdery pustules on both upper and lower leaf surfaces.",
+        cure: "Foliar fungicides like Mancozeb or Propiconazole are effective if applied early.",
+        prevent: "Plant resistant hybrids; avoid high-density planting to improve airflow."
+    },
+    "Corn_Northern_Leaf_Blight": {
+        title: "Northern Corn Leaf Blight",
+        symptoms: "Large, cigar-shaped tan lesions (1-6 inches long) with rounded ends.",
+        cure: "Apply Triazole or Strobilurin fungicides at the 'tassel' stage.",
+        prevent: "Use resistant varieties and eliminate infected crop debris from the previous year."
+    },
+    "Corn_Healthy": {
+        title: "Healthy Corn Specimen",
+        symptoms: "Leaves are deep green with no visible lesions, spots, or pustules.",
+        cure: "No treatment needed. Maintain current nitrogen and irrigation levels.",
+        prevent: "Continue bi-weekly scouting for early signs of pest or fungal pressure."
+    }
 };
 
-async function loadAI() {
+// 3. INITIALIZE THE AI "BRAIN"
+async function initAI() {
     const status = document.getElementById('status-badge');
     try {
-        model = await mobilenet.load();
-        status.innerText = "OFFLINE READY";
-        status.style.background = "#2e7d32";
+        const base = MODEL_URL.endsWith('/') ? MODEL_URL : MODEL_URL + '/';
+        
+        // Load the model and metadata from your link
+        model = await tmImage.load(base + "model.json", base + "metadata.json");
+        maxPredictions = model.getTotalClasses();
+        
+        console.log("✅ Corn-AI Online. Classes detected: " + maxPredictions);
+        status.innerText = "CORN-AI READY";
+        status.style.backgroundColor = "#2e7d32";
     } catch (e) {
-        status.innerText = "CONNECTION ERROR";
+        console.error("AI Load Failed:", e);
+        status.innerText = "OFFLINE ERROR";
+        status.style.backgroundColor = "#d32f2f";
     }
 }
 
-const btn = document.getElementById('capture-btn');
+// 4. PHOTO CAPTURE HANDLER
 const input = document.getElementById('camera-input');
+const captureBtn = document.getElementById('capture-btn');
 
-btn.addEventListener('click', () => input.click());
+captureBtn.addEventListener('click', () => input.click());
 
-input.addEventListener('change', async (e) => {
+input.addEventListener('change', (e) => {
     const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        const img = document.getElementById('preview-img');
-        img.src = event.target.result;
-        img.classList.remove('hidden');
-        document.getElementById('upload-placeholder').classList.add('hidden');
-        
-        analyzeLeaf(img);
-    };
-    reader.readAsDataURL(file);
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => processCornImage(img);
+        };
+        reader.readAsDataURL(file);
+    }
 });
 
-async function analyzeLeaf(imgElement) {
+// 5. DIAGNOSIS LOGIC
+async function processCornImage(imgElement) {
+    // Show results section
+    document.getElementById('main-ui').classList.add('hidden');
     document.getElementById('results-card').classList.remove('hidden');
-    document.getElementById('disease-name').innerText = "Analyzing Pixels...";
     
-    const predictions = await model.classify(imgElement);
-    const topResult = predictions[0];
-    const name = topResult.className.toLowerCase();
-    const probability = Math.round(topResult.probability * 100);
+    // AI PREDICTION
+    const prediction = await model.predict(imgElement);
+    
+    // Sort to find the most likely match
+    prediction.sort((a, b) => b.probability - a.probability);
+    
+    const bestMatch = prediction[0];
+    const className = bestMatch.className;
+    const confidence = Math.round(bestMatch.probability * 100);
 
-    document.getElementById('disease-name').innerText = topResult.className.split(',')[0];
-    document.getElementById('severity-fill').style.width = probability + "%";
+    // Get info from our database
+    const info = diseaseDatabase[className] || {
+        title: "Unknown Anomaly",
+        symptoms: "The AI detected an unusual pattern not in the core corn database.",
+        cure: "Consult a local agricultural extension officer.",
+        prevent: "Isolate the affected plant and monitor the rest of the field."
+    };
 
-    let treatment = "Unknown species. Please consult an agricultural officer locally.";
-    for (let key in knowledgeBase) {
-        if (name.includes(key)) {
-            treatment = knowledgeBase[key];
-            break;
-        }
-    }
-    document.getElementById('treatment-info').innerText = treatment;
+    // Update the UI
+    document.getElementById('disease-name').innerText = info.title;
+    document.getElementById('confidence-pct').innerText = confidence + "%";
+    document.getElementById('severity-fill').style.width = confidence + "%";
+    
+    // Create the detailed report
+    document.getElementById('treatment-info').innerHTML = `
+        <div style="margin-bottom: 15px;">
+            <h4 style="color: #2e7d32; margin-bottom: 5px;">🚨 SYMPTOMS</h4>
+            <p style="font-size: 0.95rem; line-height: 1.4;">${info.symptoms}</p>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <h4 style="color: #2e7d32; margin-bottom: 5px;">💊 RECOMMENDED CURE</h4>
+            <p style="font-size: 0.95rem; line-height: 1.4;">${info.cure}</p>
+        </div>
+        <div>
+            <h4 style="color: #2e7d32; margin-bottom: 5px;">🛡️ PREVENTION</h4>
+            <p style="font-size: 0.95rem; line-height: 1.4;">${info.prevent}</p>
+        </div>
+    `;
 }
 
-loadAI();
+// Start the process
+initAI();
