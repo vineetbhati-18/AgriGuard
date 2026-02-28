@@ -1,72 +1,75 @@
-🌿00 AgriGuard: Offline-First Crop Disease Diagnostic Tool
-One-line project description
-A lightweight Progressive Web App (PWA) using on-device Computer Vision to identify crop diseases and provide treatment protocols without requiring an internet connection.
 
-1. Problem Statement
-Problem Title: AgriGuard: Breaking the Connectivity Barrier in Agriculture.
 
-Problem Description: Small-scale farmers in rural areas lose up to 40% of their yield to treatable diseases due to a lack of expert access and unreliable internet.
+🌿 AgriGuard: Offline AI Crop Diagnostic Tool
+"Bringing expert agricultural advice to the edge—no internet required."
 
-Target Users: Rural farmers, agricultural extension workers, and NGOs.
+📌 Project in One Sentence
+An offline-first Progressive Web App (PWA) that uses on-device Machine Learning to identify crop diseases from leaf photos and provide instant treatment plans.
 
-Existing Gaps: Most AI tools require cloud processing (high data costs/low signal) and lack immediate, actionable offline advice.
+🚩 The Problem
+Farmers in rural areas face 40% crop loss due to diseases. Existing AI solutions fail because:
 
-2. Problem Understanding & Approach
-Root Cause Analysis: The "Digital Divide"—high-performance AI usually lives on servers, but the problem (crop disease) lives in disconnected fields.
+No Signal: Most AI requires high-speed internet (Cloud AI).
 
-Solution Strategy: We utilize Edge AI (TensorFlow.js) to bring the diagnostic model directly to the user's browser storage.
+High Costs: Sending images to servers costs data money.
 
-3. Proposed Solution
-Solution Overview: A zero-install web application that functions as a portable diagnostic lab.
+Delayed Action: Waiting for an expert can take days, while a fungus spreads in hours.
 
-Core Idea: Using the phone's hardware (Camera + GPU) to run inference locally.
+💡 Our Solution
+AgriGuard is a "Lab in your Pocket." It downloads a "Brain" (AI Model) to the phone once, and then works 100% Offline.
 
-Key Features:
+🚀 Key Features
+Zero-Data Diagnosis: Works in Airplane Mode.
 
-Instant Offline Classification: Identifies diseases in <500ms.
+Instant Results: Diagnosis in less than 1 second.
 
-PWA Integration: Can be "Installed" to the home screen for offline launch.
+Actionable Advice: Provides organic and chemical cures locally.
 
-Severity Estimation: Uses model confidence scores to indicate infection levels.
+Installable: Save it to your home screen like a real app (PWA).
 
-Actionable Knowledge Base: Locally stored treatment database.
+⚙️ How It Works (The "Tech")
+The Brain (TensorFlow.js): We use a shrunk-down version of MobileNetV2. The model "lives" in the browser's memory.
 
-4. System Architecture
-High-Level Flow: User → Smartphone Camera → Browser (TF.js) → Local Knowledge Base (JSON) → Treatment Result
+The Cache (Service Workers): A background script saves the app files so they open without Wi-Fi.
 
-Architecture Description: A decentralized, client-side architecture. We eliminate the backend entirely to ensure 100% uptime in "No-Signal" zones.
+The Library (Local JSON): A built-in database of diseases (Corn Rust, Tomato Blight, etc.) and their specific cures.
 
-5. Database Design
-Structure: Flat-file JSON (optimized for rapid offline lookup).
+The Logic:
 
-Fields: Crop_Type, Common_Disease_Name, Visual_Symptoms, Cure_Protocol.
+Input: User takes a photo.
 
-6. Dataset & Model
-Dataset: Based on the PlantVillage Dataset (54,000+ images of healthy/diseased leaves).
+Process: AI analyzes pixels on the phone's CPU.
 
-Model Selected: MobileNetV2.
+Output: Matches the pattern to a disease + shows the cure.
 
-Reasoning: Optimized for mobile browser performance, balancing high accuracy with low memory footprint.
+🛠️ Technology Stack
+Language: HTML5, CSS3 (Tailwind), JavaScript.
 
-7. Technology Stack
-Frontend: HTML5, Tailwind CSS.
+AI Engine: TensorFlow.js.
 
-ML Engine: TensorFlow.js (MobileNet).
+Deployment: GitHub Pages (Serverless).
 
-Offline Support: Service Workers & Web App Manifest.
+Strategy: Edge Computing (On-device inference).
 
-Deployment: GitHub Pages / Vercel.
+🗺️ Roadmap (Future Scope)
+Short Term: Add voice-to-text for farmers who cannot type.
 
-8. End-to-End Workflow
-Capture: User takes a photo of a distressed leaf.
+Medium Term: Support for local languages (Hindi, Swahili, Spanish).
 
-Process: The browser-based AI analyzes pixel patterns locally.
+Long Term: Connect to low-cost soil sensors via Bluetooth.
 
-Diagnose: The app identifies the crop and matching disease.
+👥 The Team
+Team LFL 
+Team members :-
+1) Vedant Singh Kirar
+2) Vineet Bhati
+3) Apoorv Mishra
 
-Act: A treatment plan is retrieved from the local database and displayed instantly.
+📥 How to Test
+Open the [Live Demo Link].
 
-9. Future Scope
-Short-Term: Multilingual support for non-English speaking regions.
+Wait 10 seconds for the "AI Brain" to download.
 
-Long-Term: Integrating satellite weather data (when online) to predict fungal outbreaks before they appear.
+Turn off your Wi-Fi/Data.
+
+Take a photo of a leaf and see the magic!
