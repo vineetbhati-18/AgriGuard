@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriGuard AI</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <h1>🌿 AgriGuard</h1>
+            <span id="status-badge" class="offline-badge">Initializing...</span>
+        </header>
+
+        <main>
+            <div class="camera-card">
+                <div id="display-area">
+                    <img id="preview-img" src="" alt="Capture a leaf" class="hidden">
+                    <div id="upload-placeholder">
+                        <div class="icon">📸</div>
+                        <p>No image captured</p>
+                    </div>
+                </div>
+                
+                <input type="file" id="camera-input" accept="image/*" capture="camera" hidden>
+                <button id="capture-btn">SCAN LEAF</button>
+            </div>
+
+            <div id="results-card" class="hidden">
+                <h3>Diagnosis Report</h3>
+                <div class="result-row">
+                    <span>Disease:</span>
+                    <strong id="disease-name">Detecting...</strong>
+                </div>
+                <div class="result-row">
+                    <span>Severity:</span>
+                    <div class="progress-bar"><div id="severity-fill"></div></div>
+                </div>
+                <div class="treatment-box">
+                    <h4>Cure & Treatment:</h4>
+                    <p id="treatment-info">Please wait while AI analyzes the specimen...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
