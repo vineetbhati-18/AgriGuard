@@ -1,4 +1,4 @@
-🌿 AgriGuard: Offline-First Crop Disease Diagnostic Tool
+🌿00 AgriGuard: Offline-First Crop Disease Diagnostic Tool
 One-line project description
 A lightweight Progressive Web App (PWA) using on-device Computer Vision to identify crop diseases and provide treatment protocols without requiring an internet connection.
 
