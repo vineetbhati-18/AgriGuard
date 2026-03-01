@@ -3,53 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgriGuard AI Pro</title>
+    <title>AgriGuard AI | Corn Specialist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 </head>
 <body>
+
     <div class="app-container">
         <header id="main-header">
-            <h1>🌿 AgriGuard</h1>
-            <span id="status-badge" class="offline-badge">AI LOADING...</span>
+            <div class="info-btn-container">
+                <button onclick="toggleInstructions()" id="btn-info">ⓘ INFO</button>
+            </div>
+            <div class="logo-area">
+                <h1 id="app-title">🌿 AGRIGUARD</h1>
+                <div id="status-badge" class="offline-badge">CORE INITIALIZING...</div>
+            </div>
+            <div class="lang-switcher">
+                <button onclick="changeLanguage('EN')" id="btn-en" class="active-lang">EN</button>
+                <button onclick="changeLanguage('HI')" id="btn-hi">हिन्दी</button>
+            </div>
         </header>
 
         <main id="main-ui">
             <div class="camera-card">
                 <div id="display-area">
+                    <div class="scan-overlay"></div>
                     <div class="instruction-box">
-                        <div class="pulsing-circle">📸</div>
-                        <h3>Ready to Scan</h3>
-                        <p>Upload a clear leaf photo</p>
+                        <div class="pulse-icon">📡</div>
+                        <p id="txt-awaiting">AWAITING INPUT</p>
                     </div>
                 </div>
                 <input type="file" id="camera-input" accept="image/*" capture="camera" hidden>
-                <button id="capture-btn">START SCAN</button>
+                <div class="action-area">
+                    <button id="capture-btn">INITIATE BIOSCAN</button>
+                    <p id="txt-edge" class="sub-text">Edge-Inference Active | Offline Encrypted</p>
+                </div>
             </div>
         </main>
 
-        <div id="results-card" class="hidden">
-            <button class="back-btn" onclick="resetApp()">← New Scan</button>
+        <section id="results-card" class="hidden">
+            <div class="nav-header">
+                <button class="back-btn" id="btn-reset" onclick="resetApp()">← RESET TERMINAL</button>
+            </div>
             <div class="report-container">
-                <span class="report-tag">CUSTOM AI DIAGNOSIS</span>
-                <h2 id="disease-name">Analyzing...</h2>
-                
+                <div class="scan-meta">
+                    <span class="glitch-text" id="txt-complete">ANALYSIS COMPLETE</span>
+                    <h2 id="disease-name">IDENTIFYING...</h2>
+                </div>
                 <div class="accuracy-meter">
                     <div class="meter-label">
-                        <span>AI Confidence Score</span>
+                        <span id="txt-confidence">MATCH CONFIDENCE</span>
                         <span id="confidence-pct">0%</span>
                     </div>
                     <div class="progress-bar"><div id="severity-fill"></div></div>
                 </div>
+                <div id="treatment-info" class="details-grid"></div>
+            </div>
+        </section>
+    </div>
 
-                <div class="treatment-box">
-                    <div id="treatment-info">Processing botanical data...</div>
-                </div>
+    <div id="instruction-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">SYSTEM GUIDE</h2>
+                <button class="close-btn" onclick="toggleInstructions()">×</button>
+            </div>
+            <div id="modal-body">
+                <div class="guide-step"><span>01</span><p>Select Language</p></div>
+                <div class="guide-step"><span>02</span><p>Upload Corn Leaf</p></div>
+                <div class="guide-step"><span>03</span><p>Analyze Patterns</p></div>
+                <div class="guide-step"><span>04</span><p>Get Treatment</p></div>
             </div>
         </div>
     </div>
+
     <script src="app.js"></script>
 </body>
 </html>
