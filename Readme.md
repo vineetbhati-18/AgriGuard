@@ -1,64 +1,177 @@
+Notepad is a very basic text editor that often struggles with "Markdown" (the formatting language I use here). To make it look perfect in Notepad, I have removed all the fancy styling and used plain text spacing and standard dashes.
 
+Copy the text below into Notepad:
 
-🌿 AgriGuard: Offline AI Crop Diagnostic Tool
-"Bringing expert agricultural advice to the edge—no internet required."
+PROJECT REPORT: AGRIGUARD AI
 
+Project Title: AgriGuard AI
+One-line Description: An AI-driven biological scanner for real-time crop disease detection and professional treatment planning.
 
-📌 Project in One Sentence
-An offline-first Progressive Web App (PWA) that uses on-device Machine Learning to identify crop diseases from leaf photos and provide instant treatment plans.
+PROBLEM STATEMENT
 
+Problem Title: Crop Yield Attrition due to Delayed Fungal Diagnosis
 
-🚩 The Problem
-Farmers in rural areas face 40% crop loss due to diseases. Existing AI solutions fail because:
-No Signal: Most AI requires high-speed internet (Cloud AI).
-High Costs: Sending images to servers costs data money.
-Delayed Action: Waiting for an expert can take days, while a fungus spreads in hours.
+Problem Description:
+Farmers struggle to identify crop diseases early. By the time symptoms are visible, the infection has often spread, leading to yield loss and ineffective chemical use.
 
+Target Users:
 
-💡 Our Solution
-AgriGuard is a "Lab in your Pocket." It downloads a "Brain" (AI Model) to the phone once, and then works 100% Offline.
+Small-scale and commercial farmers.
 
+Agricultural extension officers.
 
-🚀 Key Features
-Zero-Data Diagnosis: Works in Airplane Mode.
-Instant Results: Diagnosis in less than 1 second.
-Actionable Advice: Provides organic and chemical cures locally.
-Installable: Save it to your home screen like a real app (PWA).
+Home gardeners and agronomists.
 
+Existing Gaps:
 
-⚙️ How It Works (The "Tech")
-The Brain (TensorFlow.js): We use a shrunk-down version of MobileNetV2. The model "lives" in the browser's memory.
-The Cache (Service Workers): A background script saves the app files so they open without Wi-Fi.
-The Library (Local JSON): A built-in database of diseases (Corn Rust, Tomato Blight, etc.) and their specific cures.
+Accessibility: Professional agronomists are expensive and rare in rural areas.
 
+Connectivity: Most AI solutions require high-speed internet.
 
-The Logic:
-Input: User takes a photo.
-Process: AI analyzes pixels on the phone's CPU.
-Output: Matches the pattern to a disease + shows the cure.
+Language: Tools are rarely available in local languages like Hindi.
 
+PROBLEM UNDERSTANDING & APPROACH
 
-🛠️ Technology Stack
-Language: HTML5, CSS3 (Tailwind), JavaScript.
-AI Engine: TensorFlow.js.
-Deployment: GitHub Pages (Serverless).
-Strategy: Edge Computing (On-device inference).
+Root Cause Analysis:
+Agricultural losses are driven by the "Time-to-Diagnosis" gap. Manual inspection is slow and subjective.
 
+Solution Strategy:
+We use Edge AI (TensorFlow.js) to run deep learning models directly in the user's browser, ensuring instant results even without internet.
 
-🗺️ Roadmap (Future Scope)
-Short Term: Add voice-to-text for farmers who cannot type.
-Medium Term: Support for local languages (Hindi, Swahili, Spanish).
-Long Term: Connect to low-cost soil sensors via Bluetooth.
+PROPOSED SOLUTION
 
+Solution Overview:
+AgriGuard AI is a Progressive Web App (PWA) that transforms a smartphone camera into a diagnostic tool.
 
-👥 Team members :-
-1) Vedant Singh Kirar
-2) Vineet Bhati
-3) Apoorv Mishra
+Core Idea:
+Using a Convolutional Neural Network (CNN) to analyze leaf patterns and provide localized, professional prescriptions.
 
+Key Features:
 
-📥 How to Test
-Open the [Live Demo Link].
-Wait 10 seconds for the "AI Brain" to download.
-Turn off your Wi-Fi/Data.
-Take a photo of a leaf and see the magic!
+Instant Bio-Scan: Real-time analysis of leaf health.
+
+Bilingual Support: Full English and Hindi localization.
+
+Offline-First: Works without active internet via Service Workers.
+
+Detailed Prescriptions: Specific dosage and prevention advice.
+
+SYSTEM ARCHITECTURE
+
+High-Level Flow:
+User -> Frontend (HTML/CSS) -> Browser Memory (TF.js) -> Model (CNN) -> Local Data -> Response
+
+Architecture Description:
+A Client-Side Heavy Architecture. The model is cached in the browser; all processing happens on-device for maximum privacy and speed.
+
+DATABASE DESIGN
+
+ER Diagram Description:
+The system uses a structured JSON manifest containing:
+
+UI Mapping: Key-value pairs for localization.
+
+Disease Metadata: Symptoms, Cures, and Prevention linked to model labels.
+
+DATASET SELECTED
+
+Dataset Name: Corn/Maize PlantVillage Dataset
+Source: Kaggle / PlantVillage Open Research
+Data Type: RGB Images of Corn Leaves (256x256)
+Selection Reason: High variance in lighting/background for field robustness.
+Preprocessing: Resizing to 224x224, Normalization, and Data Augmentation.
+
+MODEL SELECTED
+
+Model Name: Custom CNN (MobileNetV2 Backbone)
+Selection Reasoning: MobileNet is optimized for mobile browsers (low latency).
+Alternatives Considered: ResNet50 (Too heavy), Random Forest (No spatial recognition).
+Evaluation Metrics: 94% Accuracy on test data; <200ms inference time.
+
+TECHNOLOGY STACK
+
+Frontend: HTML5, CSS3 (Glassmorphism), JavaScript (ES6+)
+
+ML/AI: TensorFlow.js, Teachable Machine
+
+PWA: Service Workers, Web Manifest API
+
+Deployment: Netlify
+
+API DOCUMENTATION & TESTING
+
+Note: This project uses an "Embedded Model" architecture. No external API calls are made to ensure offline functionality.
+
+MODULE-WISE DEVELOPMENT
+
+Checkpoint 1: Research & Planning (Disease selection & Wireframes)
+
+Checkpoint 2: Model Training (Training .json and .bin files)
+
+Checkpoint 3: Frontend Development (Cyber-Agri UI & Staggered Animations)
+
+Checkpoint 4: Integration (TF.js & Image processing pipeline)
+
+Checkpoint 5: Localization (Hindi-English toggle & Treatment database)
+
+Checkpoint 6: Deployment (Netlify & PWA configuration)
+
+END-TO-END WORKFLOW
+
+User opens app and selects language.
+
+User clicks "Initiate Bioscan" and captures/uploads leaf photo.
+
+Local model processes image in under 1 second.
+
+App displays disease name, confidence, and treatment plan.
+
+DEMO & VIDEO
+
+Live Demo Link: https://agriguard-newton.netlify.app/
+
+Demo Video Link: https://drive.google.com/drive/folders/12wYxtWk8xEKAbqffhtAgfeXTjifuvcSt?usp=drive_link
+
+Presentation Link: [INSERT LINK HERE]
+
+GitHub Repository: [INSERT REPO LINK HERE]
+
+HACKATHON DELIVERABLES SUMMARY
+
+Functional PWA (Mobile Installable)
+
+Trained CNN Model for Corn
+
+Bilingual (English/Hindi) Logic
+
+Detailed Agronomic Prescriptions
+
+TEAM :-
+
+Member1 Name: Vedant Singh Kirar
+Member2 NAme: Vineet Bhati
+Member3 Name: Apoorv Mishra
+
+FUTURE SCOPE & SCALABILITY
+
+Short-Term:
+
+Add more Corn diseases (Smut, Downy Mildew).
+
+Add audio-guidance for illiterate users.
+
+Long-Term:
+
+Multi-Crop Expansion: The current prototype focuses on Corn (4 classes), but the architecture can scale to Wheat, Rice, or Tomato by updating model weights.
+
+Supply Chain: Link cures to local pesticide marketplaces.
+
+KNOWN LIMITATIONS
+
+Accuracy depends on lighting conditions.
+
+Limited to Corn species in the current version.
+
+IMPACT
+
+AgriGuard AI empowers millions of farmers with agronomist knowledge, reducing crop waste and promoting sustainable chemical use.
