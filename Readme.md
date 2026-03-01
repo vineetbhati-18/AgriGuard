@@ -1,4 +1,8 @@
- PROJECT REPORT: AGRIGUARD AI
+ Live Demo Link: https://agriguard-newton.netlify.app/
+
+Demo Video Link: https://drive.google.com/drive/folders/12wYxtWk8xEKAbqffhtAgfeXTjifuvcSt?usp=drive_link
+
+Presentation Link: https://drive.google.com/drive/folders/1FMCyGAgUMBZTmYtDPyXOJGOexURPc-Qe?usp=sharing PROJECT REPORT: AGRIGUARD AI
 
 Project Title: AgriGuard AI
 One-line Description: An AI-driven biological scanner for real-time crop disease detection and professional treatment planning.
