@@ -1,8 +1,4 @@
-Notepad is a very basic text editor that often struggles with "Markdown" (the formatting language I use here). To make it look perfect in Notepad, I have removed all the fancy styling and used plain text spacing and standard dashes.
-
-Copy the text below into Notepad:
-
-PROJECT REPORT: AGRIGUARD AI
+ PROJECT REPORT: AGRIGUARD AI
 
 Project Title: AgriGuard AI
 One-line Description: An AI-driven biological scanner for real-time crop disease detection and professional treatment planning.
